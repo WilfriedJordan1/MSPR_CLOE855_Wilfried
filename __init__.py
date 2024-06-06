@@ -77,19 +77,7 @@ def enregistrer_client():
     conn.close()
     return redirect('/consultation/')  # Rediriger vers la page d'accueil après l'enregistrement
 
-@app.route('/fiche_nom/<string:name>', methods=['GET'])
-def get_client_by_name(name):
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM clients WHERE nom=?", (name,))
-    client = cursor.fetchone()
-    conn.close()    
-    # if client:
-        # Si le client est trouvé, transmettez les données au modèle HTML et rendrez la page
-        return render_template('read_client.html', data=client)
-    # else:
-        # Si aucun client correspondant n'est trouvé, retournez une réponse avec un code 404
-        # return render_template('not_found.html'), 404
+
                                                                                                                                        
 if __name__ == "__main__":
   app.run(debug=True)
