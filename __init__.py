@@ -87,7 +87,7 @@ def get_client_by_name(name):
     return render_template('read_client.html', data=client)
 
 @app.route('/fiche_nom/<string:name>', methods=['GET', 'POST'])
-def authentification():
+def authentification1():
     if request.method == 'POST':
         # Vérifier les identifiants
         if request.form['username'] == 'user' and request.form['password'] == 12345: # password à cacher par la suite
