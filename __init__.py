@@ -77,7 +77,7 @@ def enregistrer_client():
     conn.close()
     return redirect('/consultation/')  # Rediriger vers la page d'accueil après l'enregistrement
 
-@app.route('/fiche_nom/<int:post_id>', methods=['GET'])
+@app.route('/fiche_nom/<string:name>', methods=['GET'])
 def get_client_by_name(name):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
