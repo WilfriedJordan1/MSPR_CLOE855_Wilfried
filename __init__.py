@@ -93,7 +93,7 @@ def get_client_by_name(name):
 def authentification_user():
     if request.method == 'POST':
         # Vérifier les identifiants
-        if request.form['username'] == 'user' and request.form['password'] == '12345': # password à cacher par la suite
+        if request.form['username'] == 'user' and request.form['password'] == 12345: # password à cacher par la suite
             session['user_authentifie'] = True
             # Rediriger vers la route lecture après une authentification réussie
             return redirect(url_for('get_client_by_name'))
