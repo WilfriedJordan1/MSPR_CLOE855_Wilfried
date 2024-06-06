@@ -104,7 +104,7 @@ def authentification_user():
             if name:
                 return redirect(url_for('get_client_by_name', name=name))
             else:
-                return redirect(url_for('authentification_user'))  
+                return redirect(url_for('get_client_by_name', name=name))  
                 # Redirection vers la page d'authentification si aucun nom n'est en session
         else:
             # Afficher un message d'erreur si les identifiants sont incorrects
