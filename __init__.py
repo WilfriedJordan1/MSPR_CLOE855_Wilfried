@@ -86,7 +86,7 @@ def get_client_by_name(name):
     conn.close()    
     if client:
         # Si le client est trouvé, transmettez les données au modèle HTML et rendrez la page
-        return render_template('read_data.html', data=data)
+        return render_template('read_data.html', data=client)
     else:
         # Si aucun client correspondant n'est trouvé, retournez une réponse avec un code 404
         return render_template('not_found.html'), 404
