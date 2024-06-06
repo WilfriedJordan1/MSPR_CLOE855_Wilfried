@@ -84,7 +84,7 @@ def get_client_by_name(name):
     cursor.execute("SELECT * FROM clients WHERE nom=?", (name,))
     client = cursor.fetchone()
     conn.close()    
-    if data:
+    if client:
         # Si le client est trouvé, transmettez les données au modèle HTML et rendrez la page
         return render_template('read_data.html', data=data)
     else:
