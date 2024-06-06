@@ -79,7 +79,8 @@ def enregistrer_client():
 
 @app.route('/fiche_nom/<string:name>', methods=['GET'])
 def get_client_by_name(name):
-    if not est_user_authentifie():
+    if not est_authentifie():
+        session['name'] = name  # Stocker le nom dans la session
         return redirect(url_for('authentification_user'))
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
@@ -93,7 +94,7 @@ def authentification_user():
     if request.method == 'POST':
         # Vérifier les identifiants
         if request.form['username'] == 'user' and request.form['password'] == '12345': # password à cacher par la suite
-            session['user_authentifie'] = True
+            session['authentifie'] = True
             # Rediriger vers la route lecture après une authentification réussie
             return redirect(url_for('get_client_by_name'))
         else:
