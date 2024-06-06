@@ -84,7 +84,7 @@ def get_client_by_name(name):
     cursor.execute("SELECT * FROM clients WHERE nom=?", (name,))
     client = cursor.fetchone()
     conn.close()
-    return render_template('read_client.html')
+    return render_template('read_client.html', data=client)
                                                                                                                                        
 if __name__ == "__main__":
   app.run(debug=True)
