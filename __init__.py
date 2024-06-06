@@ -77,20 +77,20 @@ def enregistrer_client():
     conn.close()
     return redirect('/consultation/')  # Rediriger vers la page d'accueil après l'enregistrement
 
-@app.route('/fiche_nom/<string:name>', methods=['GET'])
-def get_client_by_name(name):
+@app.route('/fiche_client/<int:post_id>')
+def Readfiche(post_id):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM clients WHERE nom=?", (name,))
-    client = cursor.fetchone()
+    cursor.execute('SELECT * FROM clients WHERE id = ?', (post_id,))
+    data = cursor.fetchone()  # Utilisez fetchone() car nous recherchons un seul client
     conn.close()
-
-    if client:
-        # Si le client est trouvé, le retourner en tant que réponse JSON
-        return jsonify(client)
+    
+    if data:
+        # Si le client est trouvé, transmettez les données au modèle HTML et rendrez la page
+        return render_template('read_data.html', data=data)
     else:
-        # Si aucun client correspondant n'est trouvé, retourner une réponse avec un code 404
-        return jsonify({"error": "Client not found"}), 404
+        # Si aucun client correspondant n'est trouvé, retournez une réponse avec un code 404
+        return render_template('not_found.html'), 404
                                                                                                                                        
 if __name__ == "__main__":
   app.run(debug=True)
