@@ -77,47 +77,30 @@ def enregistrer_client():
     conn.close()
     return redirect('/consultation/')  # Rediriger vers la page d'accueil après l'enregistrement
 
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
-
 @app.route('/fiche_nom/<string:name>', methods=['GET'])
 def get_client_by_name(name):
-    logging.debug(f"Accès à la fiche_nom pour le nom: {name}")
     if not session.get('user_authentifie'):
         session['name'] = name  # Stocker le nom dans la session
-        logging.debug("Utilisateur non authentifié, redirection vers authentification_user")
         return redirect(url_for('authentification_user'))
-
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM clients WHERE nom=?", (name,))
     client = cursor.fetchone()
     conn.close()
-    
-    if client:
-        logging.debug(f"Client trouvé: {client}")
-        return render_template('read_client.html', data=client)
-    else:
-        logging.debug("Client non trouvé")
-        return render_template('not_found.html'), 404
+    return render_template('read_client.html', data=client)
 
 @app.route('/authentification_user', methods=['GET', 'POST'])
 def authentification_user():
-    logging.debug("Accès à authentification_user")
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        logging.debug(f"Tentative de connexion avec l'utilisateur: {username}")
-        if username == 'user' and password == '12345':  # password doit être une chaîne
+        # Vérifier les identifiants
+        if request.form['username'] == 'user' and request.form['password'] == '12345': # password à cacher par la suite
             session['user_authentifie'] = True
-            logging.debug("Authentification réussie")
-            return redirect(url_for('get_client_by_name', name=session.get('name')))
+            # Rediriger vers la route lecture après une authentification réussie
+            return redirect(url_for('get_client_by_name'))
         else:
-            logging.debug("Authentification échouée")
-            return render_template('authentification_user.html', error=True)
-    return render_template('authentification_user.html', error=False)
-
+            # Afficher un message d'erreur si les identifiants sont incorrects
+            return render_template('authentification.html', error=True)
+    return render_template('authentification.html', error=False)
                                                                                                                                        
 if __name__ == "__main__":
   app.run(debug=True)
