@@ -100,7 +100,12 @@ def authentification_user():
         if request.form['username'] == 'user' and request.form['password'] == '12345': # password à cacher par la suite
             session['user_authentifie'] = True
             # Rediriger vers la route lecture après une authentification réussie
-            return redirect(url_for('get_client_by_name'))
+            name = session.pop('name', None)
+            if name:
+                return redirect(url_for('get_client_by_name', name=name))
+            else:
+                return redirect(url_for('authentification_user'))  
+                # Redirection vers la page d'authentification si aucun nom n'est en session
         else:
             # Afficher un message d'erreur si les identifiants sont incorrects
             return render_template('authentification.html', error=True)
