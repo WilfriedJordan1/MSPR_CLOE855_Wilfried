@@ -89,7 +89,7 @@ def get_client_by_name(name):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM clients WHERE nom=?", (name,))
-    client = cursor.fetchone()
+    client = cursor.fetchall()
     conn.close()
     return render_template('read_client.html', data=client)
 
@@ -110,6 +110,7 @@ def authentification_user():
             # Afficher un message d'erreur si les identifiants sont incorrects
             return render_template('authentification.html', error=True)
     return render_template('authentification.html', error=False)
+    
                                                                                                                                        
 if __name__ == "__main__":
   app.run(debug=True)
