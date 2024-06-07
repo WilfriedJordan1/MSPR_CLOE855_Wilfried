@@ -89,7 +89,7 @@ def get_client_by_name(name):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM clients WHERE nom=?", (name,))
-    client = cursor.fetchall()
+    client = cursor.fetchone()
     conn.close()
     return render_template('read_client.html', data=client)
 
